@@ -7,6 +7,9 @@ import mongoose from "mongoose";
 import { connectToSocket } from "./src/controllers/socketManager.js";
 
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const server = createServer(app);
@@ -23,7 +26,7 @@ app.get("/home", (req, res) => {
 });
 
 const start = async() => {
-    const connectionDb = await mongoose.connect("")
+    const connectionDb = await mongoose.connect(process.env.MONGO_URI)
     
     console.log(`MONGO Connected DB Host: ${connectionDb.connection.host}`)
     server.listen(app.get("port"), () => {
