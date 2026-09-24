@@ -8,8 +8,10 @@ import { connectToSocket } from "./src/controllers/socketManager.js";
 
 import cors from "cors";
 import dotenv from "dotenv";
+import userRoutes from "./src/routes/users.routes.js"
 
 dotenv.config();
+
 
 const app = express();
 const server = createServer(app);
@@ -21,6 +23,8 @@ app.use(cors());
 app.use(express.json({limit: "40kb"}));
 app.use(express.urlencoded({ limit: "40kb", extended: true}));
 
+app.use("/api/v1/users", userRoutes);
+
 app.get("/home", (req, res) => {
     return res.json({ "hello": "World"});
 });
@@ -30,7 +34,7 @@ const start = async() => {
     
     console.log(`MONGO Connected DB Host: ${connectionDb.connection.host}`)
     server.listen(app.get("port"), () => {
-        console.log("Listening on port 8000");
+        console.log(`Listening on port ${process.env.PORT}`);
     });
 }
 
